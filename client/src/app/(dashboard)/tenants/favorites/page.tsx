@@ -1,8 +1,8 @@
 "use client";
 
-import Card from "@/components/Card";
-import Header from "@/components/Header";
-import Loading from "@/components/Loading";
+import Card from "@/components/general/Card";
+import Header from "@/components/general/Header";
+import Loading from "@/components/general/Loading";
 import {
   useGetAuthUserQuery,
   useGetPropertiesQuery,
