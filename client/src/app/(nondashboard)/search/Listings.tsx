@@ -7,9 +7,9 @@ import {
 } from "@/state/api";
 import { useAppSelector } from "@/state/redux";
 import { Property } from "@/types/prismaTypes";
-import Card from "@/components/Card";
+import Card from "@/components/general/Card";
 import React from "react";
-import CardCompact from "@/components/CardCompact";
+import CardCompact from "@/components/general/CardCompact";
 
 const Listings = () => {
   const { data: authUser } = useGetAuthUserQuery();
