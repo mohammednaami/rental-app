@@ -1,8 +1,16 @@
 import { Request, Response } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
+import { S3Client } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { URLSearchParams } from "url";
+import axios from "axios";
 
 const prisma = new PrismaClient();
+
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+});
 
 export const getProperties = async (req: Request, res: Response): Promise<void> => {
 
@@ -193,8 +201,48 @@ export const createProperty = async (
   try{
 
     const files = req.files as Express.Multer.File[];
-    const { address, city, state, country, postalCode, managerCognitoId, ...property } = req.body;
-    const { locationId, pricePerMonth, beds, baths, squareFeet, propertyType, amenities } = req.body;
+    const { address, city, state, country, postalCode, managerCognitoId, ...propertyData } = req.body;
+    const photoUrls = await Promise.all(
+      files.map(async (file) => {
+        const uploadParams = {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: `properties/${Date.now()}-${file.originalname}`,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        }
+        const uploadResult = await new Upload({
+          client: s3Client,
+          params: uploadParams,
+    
+        }).done();
+        return uploadResult.Location;
+      }
+    ));
+
+    const geocodingUrl = `https://nominatim.openstreetmap.org/search?${new URLSearchParams(
+      {
+        street: address,
+        city,
+        country,
+        postalcode: postalCode,
+        format: "json",
+        limit: "1",
+      }
+    ).toString()}`;
+    
+    const geocodingResponse = await axios.get(geocodingUrl, {
+      headers: {
+        "User-Agent": "RENTAPP (contact@monaami.com)",
+      },
+    });
+    const [longitude, latitude] =
+      geocodingResponse.data[0]?.lon && geocodingResponse.data[0]?.lat
+        ? [
+            parseFloat(geocodingResponse.data[0]?.lon),
+            parseFloat(geocodingResponse.data[0]?.lat),
+          ]
+        : [0, 0];
+
 
   }catch(err: any){
     res.status(500).json({ message: "Error creating property" });
