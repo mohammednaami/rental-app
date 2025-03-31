@@ -22,7 +22,7 @@ const Map = () => {
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
-      style: "mapbox://styles/mohammednaami/cm8weqs2800ll01qzdutd3ct5",
+      style: "mapbox://styles/mohammednaami/cm8wezpyw00a701s9huhea7ra",
       center: filters.coordinates || [-74.5, 40],
       zoom: 9,
     });
