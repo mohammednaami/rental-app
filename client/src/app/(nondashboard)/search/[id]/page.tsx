@@ -15,7 +15,6 @@ const SingleListing = () => {
   const propertyId = Number(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: authUser } = useGetAuthUserQuery();
-
   return (
     <div>
       <ImagePreviews

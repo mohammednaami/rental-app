@@ -9,6 +9,7 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
     isLoading,
   } = useGetPropertyQuery(propertyId);
 
+
   if (isLoading) return <>Loading...</>;
   if (isError || !property) {
     return <>Property not Found</>;
