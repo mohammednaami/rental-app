@@ -15,6 +15,7 @@ const SingleListing = () => {
   const propertyId = Number(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: authUser } = useGetAuthUserQuery();
+  
   return (
     <div>
       <ImagePreviews
@@ -28,7 +29,7 @@ const SingleListing = () => {
         </div>
 
         <div className="order-1 md:order-2">
-          <ContactWidget onOpenModal={() => setIsModalOpen(true)} />
+          <ContactWidget propertyId={propertyId} onOpenModal={() => setIsModalOpen(true)} />
         </div>
       </div>
 

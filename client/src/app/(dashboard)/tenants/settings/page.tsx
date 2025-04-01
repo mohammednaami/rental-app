@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/general/Loading";
 import SettingsForm from "@/components/general/SettingsForm";
 import {
   useGetAuthUserQuery,
@@ -10,9 +11,8 @@ const TenantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateTenant] = useUpdateTenantSettingsMutation();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <Loading />;
+
 
   const initialData = {
     name: authUser?.userInfo.name,

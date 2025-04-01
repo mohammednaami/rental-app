@@ -117,7 +117,6 @@ export const api = createApi({
       query: (id) => `properties/${id}`,
       providesTags: (result, error, id) => [{ type: "PropertyDetails", id }],
       async onQueryStarted(_, { queryFulfilled }) {
-        console.log(queryFulfilled);
         await withToast(queryFulfilled, {
           error: "Failed to load property details.",
         });

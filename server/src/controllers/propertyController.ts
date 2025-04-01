@@ -140,7 +140,7 @@ export const getProperties = async (req: Request, res: Response): Promise<void> 
         `;
 
     const properties = await prisma.$queryRaw(completeQuery);
-    res.json(properties);
+      res.json(properties);
   }
   catch (err: any) {
     res.status(500).json({ message: "Error retrieving properties" });

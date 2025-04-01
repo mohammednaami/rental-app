@@ -1,11 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { useGetAuthUserQuery } from "@/state/api";
+import { useGetAuthUserQuery, useGetPropertyQuery } from "@/state/api";
 import { Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const ContactWidget = ({ onOpenModal }: ContactWidgetProps) => {
+const ContactWidget = ({ onOpenModal, propertyId }: ContactWidgetProps & PropertyOverviewProps) => {
   const { data: authUser } = useGetAuthUserQuery();
+    const {
+      data: property,
+    } = useGetPropertyQuery(propertyId);
+    
   const router = useRouter();
 
   const handleButtonClick = () => {
