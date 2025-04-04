@@ -140,7 +140,7 @@ export const getProperties = async (req: Request, res: Response): Promise<void> 
         `;
 
     const properties = await prisma.$queryRaw(completeQuery);
-      res.json(properties);
+    res.json(properties);
   }
   catch (err: any) {
     res.status(500).json({ message: "Error retrieving properties" });
@@ -204,7 +204,8 @@ export const createProperty = async (
 
     const files = req.files as Express.Multer.File[];
     const { address, city, state, country, postalCode, managerCognitoId, ...propertyData } = req.body;
-    const photoUrls = await Promise.all(
+
+   /*  const photoUrls = await Promise.all(
       files.map(async (file) => {
         const uploadParams = {
           Bucket: process.env.AWS_BUCKET_NAME,
@@ -219,7 +220,7 @@ export const createProperty = async (
         }).done();
         return uploadResult.Location;
       }
-      ));
+      )); */
 
     const geocodingUrl = `https://nominatim.openstreetmap.org/search?${new URLSearchParams(
       {
@@ -256,7 +257,7 @@ export const createProperty = async (
     const newProperty = await prisma.property.create({
       data: {
         ...propertyData,
-        photoUrls,
+      // photoUrls,
         locationId: location.id,
         managerCognitoId,
         amenities:
