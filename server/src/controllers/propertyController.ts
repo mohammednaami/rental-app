@@ -205,10 +205,10 @@ export const createProperty = async (
     const files = req.files as Express.Multer.File[];
     const { address, city, state, country, postalCode, managerCognitoId, ...propertyData } = req.body;
 
-   /*  const photoUrls = await Promise.all(
+     const photoUrls = await Promise.all(
       files.map(async (file) => {
         const uploadParams = {
-          Bucket: process.env.AWS_BUCKET_NAME,
+          Bucket: process.env.S3_BUCKET_NAME,
           Key: `properties/${Date.now()}-${file.originalname}`,
           Body: file.buffer,
           ContentType: file.mimetype,
@@ -220,7 +220,7 @@ export const createProperty = async (
         }).done();
         return uploadResult.Location;
       }
-      )); */
+      )); 
 
     const geocodingUrl = `https://nominatim.openstreetmap.org/search?${new URLSearchParams(
       {
@@ -257,7 +257,7 @@ export const createProperty = async (
     const newProperty = await prisma.property.create({
       data: {
         ...propertyData,
-      // photoUrls,
+         photoUrls,
         locationId: location.id,
         managerCognitoId,
         amenities:
