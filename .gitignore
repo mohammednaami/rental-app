@@ -7,6 +7,8 @@ client/.env.production
 server/.env
 client/.next/
 
+standart-key.pem
+
 .DS_Store
 Thumbs.db
 .vscode/
