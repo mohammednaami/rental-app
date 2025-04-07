@@ -1,24 +1,18 @@
 "use client";
+
 import Loading from "@/components/general/Loading";
 import SettingsForm from "@/components/general/SettingsForm";
 import {
   useGetAuthUserQuery,
-  useUpdateManagerSettingsMutation,
+  useUpdateTenantSettingsMutation,
 } from "@/state/api";
 import React from "react";
-import { Metadata } from 'next';
 
-
-export const metadata: Metadata = {
-  title: 'Settings - RENTAPP',
-  description: "Start your journey to finding the perfect place to call home",
-};
-const ManagerSettings = () => {
+const TenantSettingsClient = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
-  const [updateManager] = useUpdateManagerSettingsMutation();
+  const [updateTenant] = useUpdateTenantSettingsMutation();
 
   if (isLoading) return <Loading />;
-
 
   const initialData = {
     name: authUser?.userInfo.name,
@@ -27,7 +21,7 @@ const ManagerSettings = () => {
   };
 
   const handleSubmit = async (data: typeof initialData) => {
-    await updateManager({
+    await updateTenant({
       cognitoId: authUser?.cognitoInfo?.userId,
       ...data,
     });
@@ -37,9 +31,9 @@ const ManagerSettings = () => {
     <SettingsForm
       initialData={initialData}
       onSubmit={handleSubmit}
-      userType="manager"
+      userType="tenant"
     />
   );
 };
 
-export default ManagerSettings;
+export default TenantSettingsClient;

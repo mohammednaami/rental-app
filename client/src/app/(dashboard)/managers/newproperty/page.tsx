@@ -11,7 +11,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: 'New Property - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
   const { data: authUser } = useGetAuthUserQuery();

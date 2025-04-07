@@ -5,7 +5,13 @@ import Header from "@/components/general/Header";
 import Loading from "@/components/general/Loading";
 import { useGetAuthUserQuery, useGetManagerPropertiesQuery } from "@/state/api";
 import React from "react";
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: 'Properties - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 const Properties = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const {

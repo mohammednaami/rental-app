@@ -12,7 +12,13 @@ import {
 import { CircleCheckBig, Download, File, Hospital } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: 'Applications - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 const Applications = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const [activeTab, setActiveTab] = useState("all");

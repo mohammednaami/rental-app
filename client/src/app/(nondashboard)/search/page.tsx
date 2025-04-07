@@ -10,7 +10,12 @@ import { cleanParams } from "@/lib/utils";
 import { setFilters } from "@/state";
 import Map from "./Map";
 import Listings from "./Listings";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: 'Search - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
