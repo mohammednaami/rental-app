@@ -8,7 +8,13 @@ import {
   useGetCurrentResidencesQuery,
   useGetTenantQuery,
 } from "@/state/api";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: 'Residences - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 
 const Residences = () => {
   const { data: authUser } = useGetAuthUserQuery();

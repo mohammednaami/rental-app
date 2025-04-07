@@ -6,6 +6,13 @@ import {
   useUpdateTenantSettingsMutation,
 } from "@/state/api";
 import React from "react";
+import { Metadata } from 'next';
+
+
+export const metadata: Metadata = {
+  title: 'Settings - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 
 const TenantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();

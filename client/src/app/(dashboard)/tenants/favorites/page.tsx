@@ -9,7 +9,12 @@ import {
   useGetTenantQuery,
 } from "@/state/api";
 import React from "react";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: 'Favorites - RENTAPP',
+  description: "Start your journey to finding the perfect place to call home",
+};
 const Favorites = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const { data: tenant } = useGetTenantQuery(
