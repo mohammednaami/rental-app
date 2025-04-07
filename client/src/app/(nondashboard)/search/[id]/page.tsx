@@ -1,47 +1,30 @@
-"use client";
+// app/search/[id]/page.tsx
+import { Metadata } from "next";
+import SingleListingClient from "./SingleListingClient";
 
-import { useGetAuthUserQuery } from "@/state/api";
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
-import ImagePreviews from "./ImagePreviews";
-import PropertyOverview from "./PropertyOverview";
-import PropertyDetails from "./PropertyDetails";
-import PropertyLocation from "./PropertyLocation";
-import ContactWidget from "./ContactWidget";
-import ApplicationModal from "./ApplicationModal";
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const id = params.id;
 
-const SingleListing = () => {
-  const { id } = useParams();
-  const propertyId = Number(id);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: authUser } = useGetAuthUserQuery();
-  
-  return (
-    <div>
-      <ImagePreviews
-        images={["/singlelisting-2.jpg", "/singlelisting-3.jpg"]}
-      />
-      <div className="flex flex-col md:flex-row justify-center gap-10 mx-10 md:w-2/3 md:mx-auto mt-16 mb-8">
-        <div className="order-2 md:order-1">
-          <PropertyOverview propertyId={propertyId} />
-          <PropertyDetails propertyId={propertyId} />
-          <PropertyLocation propertyId={propertyId} />
-        </div>
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${id}`, {
+      cache: "no-store",
+    });
 
-        <div className="order-1 md:order-2">
-          <ContactWidget propertyId={propertyId} onOpenModal={() => setIsModalOpen(true)} />
-        </div>
-      </div>
+    if (!res.ok) throw new Error("Property not found");
+    const property = await res.json();
 
-      {authUser && (
-        <ApplicationModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          propertyId={propertyId}
-        />
-      )}
-    </div>
-  );
-};
+    return {
+      title: `${property.name} - RENTAPP`,
+      description: property.description || "Explore property details and apply directly via RENTAPP.",
+    };
+  } catch (error) {
+    return {
+      title: "Listing not found - RENTAPP",
+      description: "This property could not be loaded.",
+    };
+  }
+}
 
-export default SingleListing;
+export default function SingleListingPage() {
+  return <SingleListingClient />;
+}
