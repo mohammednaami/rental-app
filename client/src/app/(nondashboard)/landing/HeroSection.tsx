@@ -8,11 +8,17 @@ import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { setFilters } from "@/state";
+import { useGetAuthUserQuery } from "@/state/api";
 
 const HeroSection = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+
+  const { data: authUser } = useGetAuthUserQuery();
+
+
+
 
   const handleLocationSearch = async () => {
     try {
@@ -40,7 +46,11 @@ const HeroSection = () => {
           lat: lat.toString(),
           lng: lng,
         });
-        router.push(`/search?${params.toString()}`);
+        if (authUser) {
+          router.push(`/search?${params.toString()}`);
+        }else{
+          router.push("/signin");
+        }
       }
     } catch (error) {
       console.error("error search location:", error);
